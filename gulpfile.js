@@ -3,7 +3,7 @@ var rename = require('gulp-rename');
 var sourcemaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify');
 var sass = require('gulp-sass');
-var minifyCss = require('gulp-minify-css');
+var minifyCss = require('gulp-clean-css');
 
 gulp.task('sass', function() {
     gulp.src('./jquery.fullpage.scss')
@@ -36,6 +36,28 @@ gulp.task('js', function() {
         }))
         .pipe(rename({suffix: '.min'}))
         .pipe(sourcemaps.write('.'))
+        .pipe(gulp.dest('./dist'));
+});
+
+gulp.task('scrolloverflow', function() {
+    gulp.src('./vendors/scrolloverflow.js')
+        .pipe(sourcemaps.init())
+        .pipe(gulp.dest('./vendors'))
+        .pipe(uglify({
+            preserveComments: 'license'
+        }))
+        .pipe(rename({suffix: '.min'}))
+        .pipe(sourcemaps.write('.'))
+        .pipe(gulp.dest('./vendors'));
+});
+
+//private file
+gulp.task('extensions', function() {
+    gulp.src('./jquery.fullpage.extensions.js')
+        .pipe(uglify({
+            preserveComments: 'license'
+        }))
+        .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest('./dist'));
 });
 
